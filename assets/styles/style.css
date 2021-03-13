@@ -159,6 +159,10 @@ ol li {
 ul li {
   line-height: 1.75;
   padding: 0 5px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #clear-button {

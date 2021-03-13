@@ -14,7 +14,10 @@ var highScoreButton = document.getElementById( 'high-scores' ).addEventListener(
 })
 var timer = document.getElementById('timer');
 var questionEl, questionID, timeInterval, timeLeft; 
-var highScores = []
+    // initial empty highScores array
+// var highScores = []
+    // load storage data as current highScores array
+var highScores = getData()
 
 // On page load, populate DOM with start page
 startHTMl()
@@ -260,6 +263,32 @@ function highScoreHTML() {
     scoresDiv.appendChild( controlsContainer );
 
     container.appendChild( scoresDiv )
+    
+        // get refreshed data after entry of score
+    getData()
+    // console.log( highScores )
+        // sort high scores
+    sortData()
+
+
+        // post high scores
+    for ( var i = 0; i < highScores.length; i ++ ) {
+
+        var options = {
+            year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric',
+        };
+        timestamp = new Date( highScores[i].timestamp )
+        var result = timestamp.toLocaleDateString('en', options);
+
+
+
+        var  li = document.createElement('li')
+        li.innerHTML = `<div>${i + 1}:   ${highScores[i].initials.toUpperCase()}:  ${highScores[i].score}</div>  <small><em>${result}</em></small>`
+        scoreUl.appendChild(li)
+
+    }
+
+
 
         // listen to back button to return to start page
     document.getElementById( 'back-button' ).addEventListener( 'click', function() { 
@@ -356,6 +385,30 @@ function storeData( initials, score ) {
         // set to local storage
     localStorage.setItem('stored-scores', stringEntry)
 }
+
+// get stored user data
+function getData() {
+        // declare as empty array
+    highScores = []
+        // get local storage string
+    var getStorage = localStorage.getItem('stored-scores')
+        // if string is null, return empty array
+    if ( !getStorage ) { 
+        return highScores 
+    }
+        // parse string and set highScores
+    highScores = JSON.parse( getStorage )
+        // return
+    return highScores
+}
+
+// sort user data
+function sortData() {
+    highScores.sort( ( a, b ) => b.score-a.score )
+    // stack overflow: https://stackoverflow.com/questions/54623130/javascript-sort-an-array-of-objects-by-a-numeric-property-in-each-object/54623139
+}
+
+
 
 
   // Listen for true / false clicks on answers
