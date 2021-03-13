@@ -14,6 +14,7 @@ var highScoreButton = document.getElementById( 'high-scores' ).addEventListener(
 })
 var timer = document.getElementById('timer');
 var questionEl, questionID, timeInterval, timeLeft; 
+var highScores = []
 
 // On page load, populate DOM with start page
 startHTMl()
@@ -150,7 +151,7 @@ function questionHTML() {
 
 // End Game Page
 function endGameHTML() {
-        // calculate score
+            // calculate score
     var score = Math.max( 0, timeLeft )  
         // set default message end
     var message = ', great job! Save your achievement to the high score board.'  
@@ -206,8 +207,16 @@ function endGameHTML() {
     container.appendChild( scoreDiv );
 
         // listen to submit button to go to high score page
-    document.getElementById( 'submit' ).addEventListener( 'click', function() {
+    document.getElementById( 'submit' ).addEventListener( 'submit', function() {
         event.preventDefault();
+        var initials = document.getElementById( 'input' ).value.toLowerCase()
+            // verify that initials are entered
+        if ( initials === '') {
+            alert('You must enter your initials')
+            return
+        }
+            // if initials entered, send initials and score as arguments to storeScore
+        var storeScore = storeData(initials, score)
         highScoreHTML()
     })
     timeLeft = 0
@@ -262,7 +271,7 @@ function highScoreHTML() {
 // Timer function
 function timerStart() {
     // set timer value
-    timeLeft = 25;
+    timeLeft = 5;
     timer.textContent = timeLeft + ' seconds'
     // timer interval countdown
     timeInterval = setInterval(function() {
@@ -294,6 +303,7 @@ function initQuiz() {
     iterateQuiz()
 }
 
+// Iterate through quiz questions
 function iterateQuiz() {
         // iterate question counter
     questionID = questionID + 1 
@@ -320,7 +330,7 @@ function iterateQuiz() {
     } 
 }
 
-// Shuffler Arrays
+// Shuffle Arrays
 function shuffle(a) {
     for ( var i = 0; i < a.length; i++ ) {
         // select a random number up to the length of the array
@@ -333,6 +343,20 @@ function shuffle(a) {
       a[random] = orig
     }
 };
+
+// Store user data
+function storeData( initials, score ) {
+        // capture a timestamp as a unique ID
+    var now = new Date().getTime();
+    var entry = { 'timestamp': now,     'initials': initials,       'score': score };
+        // push object to high scores array
+    highScores.push(entry)
+        // stringify
+    var stringEntry = JSON.stringify(highScores)
+        // set to local storage
+    localStorage.setItem('stored-scores', stringEntry)
+}
+
 
   // Listen for true / false clicks on answers
 container.addEventListener('click', function(e) {
