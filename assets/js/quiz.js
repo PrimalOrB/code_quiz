@@ -2,7 +2,15 @@
 var container = document.getElementById( 'container' );
 var highScoreButton = document.getElementById( 'high-scores' ).addEventListener( 'click', function() {
     event.preventDefault();
-    highScoreHTML()
+        // run pause quiz to see if confirmation of aborting active quiz is required
+    var confirmExit = pauseQuiz()
+        // if true
+    if ( confirmExit) {
+            // stop the interval 
+        clearInterval(timeInterval)
+            // proceed to high score page
+        highScoreHTML() 
+    }
 })
 var timer = document.getElementById('timer');
 var questionEl, questionID, timeInterval, timeLeft; 
@@ -85,6 +93,21 @@ function startHTMl() {
     })
 }
 
+// Pause Quiz
+function pauseQuiz() {
+        // default to true
+    var response = true
+        // timer is running if there is timeLeft value above zero
+    if ( timeLeft > 0 ) {
+            // hold timer value by adding interval to offset the -- of the timer
+        timeLeft = timeLeft++
+            // confirm the user wants to abort
+        response = confirm('Quiz in progress, would you like to abort?')
+    }
+    // return response
+    return response
+}
+
 // Question List Page
 function questionHTML() {
         // clear container
@@ -144,6 +167,7 @@ function endGameHTML() {
 
         // clear container
     container.innerHTML = ""
+        // clear timer
     timer.innerHTML = ""
 
         //end game section
@@ -186,13 +210,16 @@ function endGameHTML() {
         event.preventDefault();
         highScoreHTML()
     })
+    timeLeft = 0
 }
 
 // High Scores Page
 function highScoreHTML() {
         // clear container
     container.innerHTML = ""
-
+        // clear timer
+    timer.innerHTML = ""
+    
         //end game section
     var scoresDiv = document.createElement( 'div' );
     scoresDiv.setAttribute( 'id', 'scores-container' );
@@ -235,7 +262,7 @@ function highScoreHTML() {
 // Timer function
 function timerStart() {
     // set timer value
-    timeLeft = 5;
+    timeLeft = 25;
     timer.textContent = timeLeft + ' seconds'
     // timer interval countdown
     timeInterval = setInterval(function() {
@@ -246,6 +273,7 @@ function timerStart() {
             clearInterval(timeInterval)
             endGameHTML()
         }
+        return timeLeft
     }, 1000); 
 }
 
