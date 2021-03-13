@@ -129,6 +129,7 @@ function questionHTML() {
 function endGameHTML() {
         // clear container
     container.innerHTML = ""
+    timer.innerHTML = ""
 
         //end game section
     var scoreDiv = document.createElement( 'div' );
@@ -140,7 +141,7 @@ function endGameHTML() {
         //span  
     var scorePara = document.createElement( 'span' );
     scorePara.setAttribute( 'id', 'score-span' );
-    scorePara.innerHTML = `Your final score is <strong id="score">${timeLeft}</strong>`;
+    scorePara.innerHTML = `Your final score is <strong id="score">${ Math.max( 0, timeLeft ) }</strong>`;
 
         //form
     var scoreForm = document.createElement( 'form' );
@@ -220,16 +221,22 @@ function highScoreHTML() {
 function timerStart() {
     // set timer value
     timeLeft = 25;
+    timer.textContent = timeLeft + ' seconds'
     // timer interval countdown
     timeInterval = setInterval(function() {
         timeLeft--
         timer.textContent = timeLeft + ' seconds'
-        if( timeLeft === 0 ) {
+        if( timeLeft <= 0 ) {
             // when timeout, stop tmie and go to end game
             clearInterval(timeInterval)
             endGameHTML()
         }
     }, 1000); 
+}
+
+// Penalize Time
+function penalize() {
+    timeLeft = timeLeft - 5
 }
 
 // Init Quiz
@@ -272,14 +279,14 @@ function iterateQuiz() {
 
 // Shuffler Arrays
 function shuffle(a) {
-    for ( var i = 0; i < a.length - 1; i++ ) {
-      // select a random number up to the length of the password
+    for ( var i = 0; i < a.length; i++ ) {
+        // select a random number up to the length of the array
       var random = Math.floor( Math.random() * ( i ) )
-      // set aside the value of original indexed selection
+        // set aside the value of original indexed selection
       var orig = a[i]
-      // reset the value of the indexed selection to the value of a random index
+        // reset the value of the indexed selection to the value of a random index
       a[i] = a[random]
-      // set the value of the same random index to the value of the original indexed selection
+        // set the value of the same random index to the value of the original indexed selection
       a[random] = orig
     }
 };
@@ -287,10 +294,18 @@ function shuffle(a) {
   // Listen for true / false clicks on answers
 container.addEventListener('click', function(e) {
       var response = e.target.dataset.response
-      console.log(response)
-      if( response === 'true' || response === 'false' ) {
-          console.log('answer')
-          iterateQuiz()
+       if( response === 'true' ) {
+           // post true
+       document.getElementById( 'response-el' ).textContent = 'Correct!'
+            // go to next question
+        iterateQuiz()
+      } else if ( response === 'false' ) {
+            // remove time
+        penalize()
+        // post false
+    document.getElementById( 'response-el' ).textContent = 'Wrong!'
+            // go to next question
+        iterateQuiz()
       }
 })
 
