@@ -5,9 +5,11 @@ var highScoreButton = document.getElementById( 'high-scores' ).addEventListener(
     highScoreHTML()
 })
 var timer = document.getElementById('timer');
+var questionEl; 
 
 // On page load, populate DOM with start page
 startHTMl()
+var questionID = -1
 
 // Question Array
 var questions = [
@@ -30,6 +32,27 @@ var questions = [
             { 'answer': 'blah 32',       'value': true },
             { 'answer': 'blah 33',       'value': false },
             { 'answer': 'blah 34',       'value': false },
+        ]
+    },
+    { 'question': 'blah blah 4',   'answersObj': [
+            { 'answer': 'blah 41',       'value': false },
+            { 'answer': 'blah 42',       'value': true },
+            { 'answer': 'blah 43',       'value': false },
+            { 'answer': 'blah 44',       'value': false },
+        ]
+    },
+    { 'question': 'blah blah 5',   'answersObj': [
+            { 'answer': 'blah 51',       'value': false },
+            { 'answer': 'blah 52',       'value': true },
+            { 'answer': 'blah 53',       'value': false },
+            { 'answer': 'blah 54',       'value': false },
+        ]
+    },
+    { 'question': 'blah blah 6',   'answersObj': [
+            { 'answer': 'blah 61',       'value': false },
+            { 'answer': 'blah 62',       'value': true },
+            { 'answer': 'blah 63',       'value': false },
+            { 'answer': 'blah 64',       'value': false },
         ]
     }
 ]
@@ -82,6 +105,7 @@ function questionHTML() {
     answerDiv.setAttribute( 'id', 'answer' );
     answerDiv.setAttribute( 'class', 'block' );
     var answerOl = document.createElement('ol');
+    answerOl.setAttribute( 'id', 'ol' )
     answerDiv.appendChild( answerOl );
     container.appendChild( answerDiv );
 
@@ -97,6 +121,7 @@ function questionHTML() {
 
     // start timer
     timerStart()
+    initQuiz()
 }
 
 // End Game Page
@@ -191,7 +216,7 @@ function highScoreHTML() {
 
 // Timer function
 function timerStart() {
-    var timeLeft = 5;
+    var timeLeft = 25;
     var timeInterval = setInterval(function() {
         timeLeft--
         timer.textContent = timeLeft + ' seconds'
@@ -201,4 +226,70 @@ function timerStart() {
         }
     }, 1000); 
 }
+
+// Init Quiz
+function initQuiz() {
+    questionEl = document.getElementById('question')
+
+        // shuffle question order
+    shuffle(questions)
+
+    iterateQuiz()
+
+}
+
+function iterateQuiz() {
+
+    
+    console.log(questions.length - 1, questionID)
+    questionID = questionID + 1 
+
+    if ( questions.length - 1 >= questionID ) {
+    //shuffler answer order
+    shuffle(questions[questionID].answersObj)
+    
+    // display random question
+    questionEl.textContent = questions[questionID].question
+    var ol = document.getElementById('ol')
+    ol.innerHTML = ""
+
+    // loop in shuffled answer
+    for ( var i = 0; i < questions[questionID].answersObj.length; i++ ) {
+        var li = document.createElement('li')
+        li.textContent = questions[questionID].answersObj[i].answer
+        li.setAttribute( 'data-response', questions[questionID].answersObj[i].value )
+        ol.appendChild(li)
+    }
+    } else {
+        endGameHTML()
+    }
+    
+}
+
+
+
+
+// Shuffler Arrays
+function shuffle(a) {
+    for ( var i = 0; i < a.length - 1; i++ ) {
+      // select a random number up to the length of the password
+      var random = Math.floor( Math.random() * ( i ) )
+      // set aside the value of original indexed selection
+      var orig = a[i]
+      // reset the value of the indexed selection to the value of a random index
+      a[i] = a[random]
+      // set the value of the same random index to the value of the original indexed selection
+      a[random] = orig
+    }
+  };
+
+  // Listen for true / false clicks on answers
+  container.addEventListener('click', function(e) {
+      var response = e.target.dataset.response
+      console.log(response)
+      if( response === 'true' || response === 'false' ) {
+          console.log('answer')
+          iterateQuiz()
+      }
+  })
 
