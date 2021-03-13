@@ -25,6 +25,53 @@ https://primalorb.github.io/code_quiz/
   * ![question_data_structure](https://user-images.githubusercontent.com/69044956/111041361-d5b45400-8405-11eb-8368-ab513379509d.png)
 * Initial program design flow chart
   * ![program_flow](https://user-images.githubusercontent.com/69044956/111041381-e6fd6080-8405-11eb-9258-e7f338b652e1.png)
+
+## Application Flow
+* Start Quiz
+  * Question page is loaded  
+    * Shuffle question array order
+    * Iterate through questions (i++) until all questions are asked
+      * Shuffle order of answers to display on page
+        * Correct answer 
+          * displays "correct"
+          * iterates to next question
+        * Incorrect answer 
+          * penalizes the time counter
+          * graphic of penalty generated and animated
+          * display "wrong"
+          * iterates to next question
+  * Timer Starts
+
+* End Quiz
+  * Whichever occurs first
+    * All questions are answered
+      * Score is time remaining on the timer
+    * Timer is run to zero (or below if due to penalty)
+      * Score is the timer value ( can be negative due to penalties )
+      * Additional negative score is factored by the number of questions not answers yet (penalty for each)
+
+* Submit Score
+  * Different text generated based on end quiz conditions ( remaining question / all completed questions )
+  * Enter initials (or name, I do not have a limit on max length)
+  * Initials are validated by requiring at least some sort of input
+  * Object created of timestamp, initials, and score
+  * Object pushed to array of scores on localStorage
+
+* High Score Page
+  * Array of scores pulled from localStorage
+  * Array sorted to be score descending ( highest score first )
+  * Page displays the scores (no limit) and decodes the timestamp into a date/time record
+  * Go back button will return to the start quiz page
+  * Clear high scores button
+    * Removes array from localStorage
+    * empties the current array in use
+
+* Leaving active quiz
+  * If clicking high score list while in active quiz
+    * time is "paused" by iterating timer++ to offset the timer-- of the regular interval
+    * user is asked to confirm they want to abort the quiz
+      * if yes, timer interval is cleared, value set to zero, and proceed to high score page
+      * if no, timer is resumed and the quiz continues as is
   
 ## Completed app screenshots
 * Start page
