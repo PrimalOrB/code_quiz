@@ -9,6 +9,31 @@ var timer = document.getElementById('timer');
 // On page load, populate DOM with start page
 startHTMl()
 
+// Question Array
+var questions = [
+    { 'question': 'blah blah 1',   'answersObj': [
+            { 'answer': 'blah 1',       'value': true },
+            { 'answer': 'blah 2',       'value': false },
+            { 'answer': 'blah 3',       'value': false },
+            { 'answer': 'blah 4',       'value': false },
+        ]
+    },
+    { 'question': 'blah blah 2',   'answersObj': [
+            { 'answer': 'blah 21',       'value': false },
+            { 'answer': 'blah 22',       'value': true },
+            { 'answer': 'blah 23',       'value': false },
+            { 'answer': 'blah 24',       'value': false },
+        ]
+    },
+    { 'question': 'blah blah 3',   'answersObj': [
+            { 'answer': 'blah 31',       'value': false },
+            { 'answer': 'blah 32',       'value': true },
+            { 'answer': 'blah 33',       'value': false },
+            { 'answer': 'blah 34',       'value': false },
+        ]
+    }
+]
+
 // Start Page
 function startHTMl() {
         // clear container
@@ -173,7 +198,7 @@ function timerStart() {
         if( timeLeft === 0 ) {
             clearInterval(timeInterval)
             endGameHTML()
-            // displayMessage()
         }
     }, 1000); 
 }
+
