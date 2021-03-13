@@ -13,7 +13,7 @@ startHTMl()
 // Question Array
 var questions = [
     { 'question': 'blah blah 1',   'answersObj': [
-            { 'answer': 'blah 1',       'value': true },
+            { 'answer': 'blah 1 true',       'value': true },
             { 'answer': 'blah 2',       'value': false },
             { 'answer': 'blah 3',       'value': false },
             { 'answer': 'blah 4',       'value': false },
@@ -21,35 +21,35 @@ var questions = [
     },
     { 'question': 'blah blah 2',   'answersObj': [
             { 'answer': 'blah 21',       'value': false },
-            { 'answer': 'blah 22',       'value': true },
+            { 'answer': 'blah 22 true',       'value': true },
             { 'answer': 'blah 23',       'value': false },
             { 'answer': 'blah 24',       'value': false },
         ]
     },
     { 'question': 'blah blah 3',   'answersObj': [
             { 'answer': 'blah 31',       'value': false },
-            { 'answer': 'blah 32',       'value': true },
+            { 'answer': 'blah 32 true',       'value': true },
             { 'answer': 'blah 33',       'value': false },
             { 'answer': 'blah 34',       'value': false },
         ]
     },
     { 'question': 'blah blah 4',   'answersObj': [
             { 'answer': 'blah 41',       'value': false },
-            { 'answer': 'blah 42',       'value': true },
+            { 'answer': 'blah 42 true',       'value': true },
             { 'answer': 'blah 43',       'value': false },
             { 'answer': 'blah 44',       'value': false },
         ]
     },
     { 'question': 'blah blah 5',   'answersObj': [
             { 'answer': 'blah 51',       'value': false },
-            { 'answer': 'blah 52',       'value': true },
+            { 'answer': 'blah 52 true',       'value': true },
             { 'answer': 'blah 53',       'value': false },
             { 'answer': 'blah 54',       'value': false },
         ]
     },
     { 'question': 'blah blah 6',   'answersObj': [
             { 'answer': 'blah 61',       'value': false },
-            { 'answer': 'blah 62',       'value': true },
+            { 'answer': 'blah 62 true',       'value': true },
             { 'answer': 'blah 63',       'value': false },
             { 'answer': 'blah 64',       'value': false },
         ]
@@ -127,6 +127,21 @@ function questionHTML() {
 
 // End Game Page
 function endGameHTML() {
+        // calculate score
+    var score = Math.max( 0, timeLeft )  
+        // set default message end
+    var message = ', great job! Save your achievement to the high score board.'  
+    if( questions.length > questionID ) {
+            // calculate remaining questions
+        var remainder = questions.length - questionID
+            // calculate score penalty per remainder
+        score = Math.max( 0, timeLeft ) - ( remainder * 10 )
+            // change message to explain penlaty
+        message = `, due to the timer running out with <strong> ${ questions.length - questionID } </strong> ${ ( remainder === 1 ) ? 'question' : 'questions' } remaining. Save your score so you can try and beat it next time!`
+    }
+   
+
+
         // clear container
     container.innerHTML = ""
     timer.innerHTML = ""
@@ -141,7 +156,7 @@ function endGameHTML() {
         //span  
     var scorePara = document.createElement( 'span' );
     scorePara.setAttribute( 'id', 'score-span' );
-    scorePara.innerHTML = `Your final score is <strong id="score">${ Math.max( 0, timeLeft ) }</strong>`;
+    scorePara.innerHTML = `Your final score is <strong id="score"> ${ score } </strong> ${ message } `;
 
         //form
     var scoreForm = document.createElement( 'form' );
@@ -220,7 +235,7 @@ function highScoreHTML() {
 // Timer function
 function timerStart() {
     // set timer value
-    timeLeft = 25;
+    timeLeft = 5;
     timer.textContent = timeLeft + ' seconds'
     // timer interval countdown
     timeInterval = setInterval(function() {
