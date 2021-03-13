@@ -23,47 +23,80 @@ var highScores = getData()
 startHTMl()
 
 // Question Array
+    // Questions inspried by items found at:
+        // https://www.topzenith.com/2020/04/javascript-quiz-with-questions-and-answers.html
+        // https://www.javatpoint.com/result.jsp?answer=obj.method%28%29&x=39&y=7
+        // General knowledge
+
 var questions = [
-    { 'question': 'blah blah 1',   'answersObj': [
-            { 'answer': 'blah 1 true',       'value': true },
-            { 'answer': 'blah 2',       'value': false },
-            { 'answer': 'blah 3',       'value': false },
-            { 'answer': 'blah 4',       'value': false },
+    { 'question': 'What is the HTML tag under which one can write the JavaScript code?',   'answersObj': [
+            { 'answer': ' <javascript> ... </javascript>',          'value': false },
+            { 'answer': '<scripted> ... </scripted>',               'value': false },
+            { 'answer': '<script>...  </script>',                   'value': true },
+            { 'answer': '<js> ... </js>',                           'value': false },
         ]
     },
-    { 'question': 'blah blah 2',   'answersObj': [
-            { 'answer': 'blah 21',       'value': false },
-            { 'answer': 'blah 22 true',       'value': true },
-            { 'answer': 'blah 23',       'value': false },
-            { 'answer': 'blah 24',       'value': false },
+    { 'question': 'What is the correct file extension for Javascript files?',   'answersObj': [
+            { 'answer': '.java',                                    'value': false },
+            { 'answer': '.js',                                      'value': true },
+            { 'answer': '.javascript',                              'value': false },
+            { 'answer': '.script',                                  'value': false },
         ]
     },
-    { 'question': 'blah blah 3',   'answersObj': [
-            { 'answer': 'blah 31',       'value': false },
-            { 'answer': 'blah 32 true',       'value': true },
-            { 'answer': 'blah 33',       'value': false },
-            { 'answer': 'blah 34',       'value': false },
+    { 'question': 'Which of the following is the correct syntax to display “You have a message!” in an alert box using JavaScript?',   'answersObj': [
+            { 'answer': 'alertbox(“You have a message!”);',         'value': false },
+            { 'answer': 'msgbox(“You have a message!”);',           'value': false },
+            { 'answer': 'alert(“You have a message!”);',            'value': true },
+            { 'answer': 'msg(“You have a message!”);',              'value': false },
         ]
     },
-    { 'question': 'blah blah 4',   'answersObj': [
-            { 'answer': 'blah 41',       'value': false },
-            { 'answer': 'blah 42 true',       'value': true },
-            { 'answer': 'blah 43',       'value': false },
-            { 'answer': 'blah 44',       'value': false },
+    { 'question': 'What is the output of below? 33 == 33.0',   'answersObj': [
+            { 'answer': 'true',                                     'value': true },
+            { 'answer': 'false',                                    'value': false },
+            { 'answer': '33',                                       'value': false },
+            { 'answer': 'none of the above',                        'value': false },
         ]
     },
-    { 'question': 'blah blah 5',   'answersObj': [
-            { 'answer': 'blah 51',       'value': false },
-            { 'answer': 'blah 52 true',       'value': true },
-            { 'answer': 'blah 53',       'value': false },
-            { 'answer': 'blah 54',       'value': false },
+    { 'question': 'What is the output of below? "45" === 45',   'answersObj': [
+            { 'answer': 'true',                                     'value': false },
+            { 'answer': 'false',                                    'value': true },
+            { 'answer': '45',                                       'value': false },
+            { 'answer': 'none of the above',                        'value': false },
         ]
     },
-    { 'question': 'blah blah 6',   'answersObj': [
-            { 'answer': 'blah 61',       'value': false },
-            { 'answer': 'blah 62 true',       'value': true },
-            { 'answer': 'blah 63',       'value': false },
-            { 'answer': 'blah 64',       'value': false },
+    { 'question': `Which event is specific to the keyboard`,   'answersObj': [
+            { 'answer': 'onclick',                                  'value': false },
+            { 'answer': 'onfocus',                                  'value': false },
+            { 'answer': 'onkeydown',                                'value': true },
+            { 'answer': 'onkeyboardpress',                          'value': false },
+        ]
+    },
+    { 'question': `What does the programming princinple of DRY refer to`,   'answersObj': [
+            { 'answer': 'Do not repeat yourself',                   'value': true },
+            { 'answer': 'Defensive rushing yards',                  'value': false },
+            { 'answer': 'Design reference year',                    'value': false },
+            { 'answer': 'Do not spill liquids on your keyboard',    'value': false },
+        ]
+    },
+    { 'question': `If (a === 5) and (b === 20), what will the return from the function( a * b )`,   'answersObj': [
+            { 'answer': '100',                                      'value': true },
+            { 'answer': '520',                                      'value': false },
+            { 'answer': '25',                                       'value': false },
+            { 'answer': 'null',                                     'value': false },
+        ]
+    },
+    { 'question': `How could you select a DOM element defined as <p id="test">`,   'answersObj': [
+            { 'answer': 'document.getElementsByTagName("p")',       'value': false },
+            { 'answer': 'document.querySelector("#test")',          'value': false },
+            { 'answer': 'document.getElementsById("test")',         'value': false },
+            { 'answer': 'All answers will select the element ',     'value': true },
+        ]
+    },
+    { 'question': `For "var obj = { 'param1':1,  'param2':2 }", what will return if you call "obj.length"`,   'answersObj': [
+            { 'answer': '1, 2',                                     'value': false },
+            { 'answer': 'i',                                        'value': false },
+            { 'answer': '2',                                        'value': false },
+            { 'answer': 'undefined ',                               'value': true },
         ]
     }
 ]
@@ -81,7 +114,7 @@ function startHTMl() {
     startTitle.textContent = 'coding quiz challenge'
     var startPara = document.createElement( 'p' );
     startPara.innerHTML = `Try to answer the following code-related questions within the time limit. </br>
-    Keep in mind that incorrect answers will penalize your score/time by ten seconds!`;
+    Keep in mind that incorrect or unanswered answers will penalize your score/time by ten seconds!`;
     var startButton = document.createElement( 'button' );
     startButton.setAttribute( 'id', 'start-button');
     startButton.textContent = 'start quiz';
@@ -155,20 +188,18 @@ function questionHTML() {
 // End Game Page
 function endGameHTML() {
             // calculate score
-    var score = Math.max( 0, timeLeft )  
+    var score = timeLeft
         // set default message end
     var message = ', great job! Save your achievement to the high score board.'  
     if( questions.length > questionID ) {
             // calculate remaining questions
         var remainder = questions.length - questionID
             // calculate score penalty per remainder
-        score = Math.max( 0, timeLeft ) - ( remainder * 10 )
+        score = timeLeft - ( remainder * 10 )
             // change message to explain penlaty
         message = `, due to the timer running out with <strong> ${ questions.length - questionID } </strong> ${ ( remainder === 1 ) ? 'question' : 'questions' } remaining. Save your score so you can try and beat it next time!`
     }
    
-
-
         // clear container
     container.innerHTML = ""
         // clear timer
@@ -189,6 +220,7 @@ function endGameHTML() {
         //form
     var scoreForm = document.createElement( 'form' );
     scoreForm.setAttribute( 'id', 'submit' );
+    scoreForm.setAttribute( 'autocomplete', 'off' )
     var scoreLabel = document.createElement( 'label' );
     scoreLabel.setAttribute( 'for', 'initials');
     scoreLabel.setAttribute( 'id', 'label' );
@@ -270,37 +302,36 @@ function highScoreHTML() {
         // sort high scores
     sortData()
 
-
         // post high scores
     for ( var i = 0; i < highScores.length; i ++ ) {
-
+            // transform timestamp into a displayed date/time
         var options = {
-            year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric',
-        };
+            year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
         timestamp = new Date( highScores[i].timestamp )
         var result = timestamp.toLocaleDateString('en', options);
-
-
-
+            // generate li items for appending to ul
         var  li = document.createElement('li')
         li.innerHTML = `<div>${i + 1}:   ${highScores[i].initials.toUpperCase()}:  ${highScores[i].score}</div>  <small><em>${result}</em></small>`
         scoreUl.appendChild(li)
-
     }
-
-
 
         // listen to back button to return to start page
     document.getElementById( 'back-button' ).addEventListener( 'click', function() { 
         event.preventDefault();
         startHTMl();
     })
+        // listen to clear button to clear the high scores
+    document.getElementById( 'clear-button' ).addEventListener( 'click', function() { 
+        event.preventDefault();
+        clearScores();
+        highScoreHTML();
+    })
 }
 
 // Timer function
 function timerStart() {
-    // set timer value
-    timeLeft = 5;
+    // set timer value based on the number of questions
+    timeLeft = questions.length * 8;
     timer.textContent = timeLeft + ' seconds'
     // timer interval countdown
     timeInterval = setInterval(function() {
@@ -317,7 +348,7 @@ function timerStart() {
 
 // Penalize Time
 function penalize() {
-    timeLeft = timeLeft - 5
+    timeLeft = timeLeft - 10
 }
 
 // Init Quiz
@@ -408,24 +439,58 @@ function sortData() {
     // stack overflow: https://stackoverflow.com/questions/54623130/javascript-sort-an-array-of-objects-by-a-numeric-property-in-each-object/54623139
 }
 
-
-
+// clear high scores
+function clearScores() {
+        // empty local highscores array
+    highScores = []
+        // remove localStorage data
+    localStorage.removeItem('stored-scores')
+}
 
   // Listen for true / false clicks on answers
 container.addEventListener('click', function(e) {
       var response = e.target.dataset.response
-       if( response === 'true' ) {
-           // post true
-       document.getElementById( 'response-el' ).textContent = 'Correct!'
-            // go to next question
-        iterateQuiz()
-      } else if ( response === 'false' ) {
-            // remove time
+        // send response for processing
+      processResponse( response )
+})
+
+// listen for key clicks to answer questions
+window.addEventListener('keydown', function(e) {
+        // get number value of pressed key (NaN is acceptable)
+    var key = Number( e.key ) - 1
+        // set reference
+    var ol;
+    if ( !document.getElementById('ol') ) {
+        // if falsy, then the quiz is not active
+        return
+    } else {
+        // if truthy, quiz is active and can select question list
+        ol = document.getElementById('ol')
+    }
+
+        // if key pressed value is less than the length of questions, proceed
+    if( key < ol.children.length && key > -1) {
+            // get true/false statement from dataset.response
+        var response = ol.children[key].dataset.response
+            // send response for processing
+        processResponse( response )
+    }
+})
+
+// process answer from either clicks or keyboard inputs
+function processResponse(e) {
+    if( e === 'true' ) {
+        // post true
+        document.getElementById( 'response-el' ).textContent = 'Correct!'
+         // go to next question
+     iterateQuiz()
+   } else if ( e === 'false' ) {
+         // remove time
         penalize()
         // post false
-    document.getElementById( 'response-el' ).textContent = 'Wrong!'
+        document.getElementById( 'response-el' ).textContent = 'Wrong!'
             // go to next question
         iterateQuiz()
-      }
-})
+   }
+}
 
