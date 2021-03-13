@@ -14,10 +14,10 @@ var highScoreButton = document.getElementById( 'high-scores' ).addEventListener(
 })
 var timer = document.getElementById('timer');
 var questionEl, questionID, timeInterval, timeLeft; 
-    // initial empty highScores array
-// var highScores = []
     // load storage data as current highScores array
-var highScores = getData()
+var highScores = getData();
+    // set penalty
+var penaltyTime = 10
 
 // On page load, populate DOM with start page
 startHTMl()
@@ -50,14 +50,14 @@ var questions = [
             { 'answer': 'msg(“You have a message!”);',              'value': false },
         ]
     },
-    { 'question': 'What is the output of below? 33 == 33.0',   'answersObj': [
+    { 'question': 'What is the output of this statement? 33 == 33.0',   'answersObj': [
             { 'answer': 'true',                                     'value': true },
             { 'answer': 'false',                                    'value': false },
             { 'answer': '33',                                       'value': false },
             { 'answer': 'none of the above',                        'value': false },
         ]
     },
-    { 'question': 'What is the output of below? "45" === 45',   'answersObj': [
+    { 'question': 'What is the output or this statement? "45" === 45',   'answersObj': [
             { 'answer': 'true',                                     'value': false },
             { 'answer': 'false',                                    'value': true },
             { 'answer': '45',                                       'value': false },
@@ -116,12 +116,14 @@ function startHTMl() {
     startPara.innerHTML = `Try to answer the following code-related questions within the time limit. </br>
     Keep in mind that incorrect or unanswered answers will penalize your score/time by ten seconds! </br>
     You can answer questions by clicking with your mouse, or pushing the corresponding keyboard button`;
+    var buttonDiv = document.createElement( 'div' )
     var startButton = document.createElement( 'button' );
     startButton.setAttribute( 'id', 'start-button');
     startButton.textContent = 'start quiz';
+    buttonDiv.appendChild( startButton )
     startDiv.appendChild( startTitle );
     startDiv.appendChild( startPara );
-    startDiv.appendChild( startButton );
+    startDiv.appendChild( buttonDiv );
     container.appendChild( startDiv );
 
         // listen to start button to begin the quiz
@@ -157,7 +159,7 @@ function questionHTML() {
     questionDiv.setAttribute( 'class', 'block' );
     var questionSpan = document.createElement('span');
     questionSpan.setAttribute( 'id', 'question-el' );
-    questionSpan.textContent = 'placeholder text';
+    questionSpan.textContent = ' ';
     questionDiv.appendChild( questionSpan );
     container.appendChild( questionDiv );
 
@@ -176,7 +178,9 @@ function questionHTML() {
     responseDiv.setAttribute( 'class', 'block' );
     var responseSpan = document.createElement( 'span' );
     responseSpan.setAttribute( 'id', 'response-el' );
-    responseSpan.textContent = 'placeholder text';
+    responseSpan.textContent = '';
+    var responsePara = document.createElement( 'p' );
+    responseSpan.appendChild( responsePara )
     responseDiv.appendChild( responseSpan );
     container.appendChild( responseDiv );
 
@@ -230,18 +234,23 @@ function endGameHTML() {
     scoreInput.setAttribute( 'type', 'text');
     scoreInput.setAttribute( 'placeholder', 'Initials');
     scoreInput.setAttribute( 'id', 'input');
+    var scoreButtonDiv = document.createElement( 'div' );
     var scoreButton = document.createElement( 'button' );
     scoreButton.setAttribute( 'type', 'submit');
     scoreButton.setAttribute( 'id', 'submit-button');
-    scoreButton.textContent = 'Submit';
+    scoreButton.textContent = 'submit';
+    scoreButtonDiv.appendChild( scoreButton );
     scoreForm.appendChild( scoreLabel );
     scoreForm.appendChild( scoreInput );
-    scoreForm.appendChild( scoreButton );
+    scoreForm.appendChild( scoreButtonDiv );
     scoreDiv.appendChild( scoreTitle );
     scoreDiv.appendChild( scorePara );
     scoreDiv.appendChild( scoreForm );
     container.appendChild( scoreDiv );
 
+        // focus keyboard to entry field
+    scoreInput.focus();
+   
         // listen to submit button to go to high score page
     document.getElementById( 'submit' ).addEventListener( 'submit', function() {
         event.preventDefault();
@@ -252,7 +261,7 @@ function endGameHTML() {
             return
         }
             // if initials entered, send initials and score as arguments to storeScore
-        var storeScore = storeData(initials, score)
+        storeData(initials, score)
         highScoreHTML()
     })
     timeLeft = 0
@@ -282,14 +291,18 @@ function highScoreHTML() {
         // controls
     var controlsContainer = document.createElement( 'div' );
     controlsContainer.setAttribute( 'id', 'controls' );
+    var backButtonDiv = document.createElement( 'div' );
     var backButton = document.createElement( 'button' );
     backButton.setAttribute( 'id', 'back-button' );
     backButton.textContent = 'go back';
+    backButtonDiv.appendChild( backButton );
+    var clearButtonDiv = document.createElement( 'div' );
     var clearButton = document.createElement( 'button' );
     clearButton.setAttribute( 'id', 'clear-button' );
     clearButton.textContent = 'clear high scores';
-    controlsContainer.appendChild( backButton );
-    controlsContainer.appendChild( clearButton );
+    clearButtonDiv.appendChild( clearButton )
+    controlsContainer.appendChild( backButtonDiv );
+    controlsContainer.appendChild( clearButtonDiv );
 
     scoresDiv.appendChild( scoresTitle );
     scoresDiv.appendChild( scoreContainer );
@@ -299,7 +312,6 @@ function highScoreHTML() {
     
         // get refreshed data after entry of score
     getData()
-    // console.log( highScores )
         // sort high scores
     sortData()
 
@@ -312,7 +324,7 @@ function highScoreHTML() {
         var result = timestamp.toLocaleDateString('en', options);
             // generate li items for appending to ul
         var  li = document.createElement('li')
-        li.innerHTML = `<div>${i + 1}:   ${highScores[i].initials.toUpperCase()}:  ${highScores[i].score}</div>  <small><em>${result}</em></small>`
+        li.innerHTML = `<div>${i + 1}:   ${highScores[i].initials.toUpperCase()}    (  ${highScores[i].score}   )</div>  <small>${result}</small>`
         scoreUl.appendChild(li)
     }
 
@@ -350,6 +362,13 @@ function timerStart() {
 // Penalize Time
 function penalize() {
     timeLeft = timeLeft - 10
+
+    var penalty = document.createElement( 'div' );
+    penalty.setAttribute( 'class', 'penalty' );
+    penalty.textContent = `- ${penaltyTime}s`
+    timer.appendChild( penalty )
+
+
 }
 
 // Init Quiz
@@ -455,8 +474,8 @@ container.addEventListener('click', function(e) {
       processResponse( response )
 })
 
-// listen for key clicks to answer questions
-window.addEventListener('keydown', function(e) {
+// listen for keyboard to answer questions
+window.addEventListener('keyup', function(e) {
         // get number value of pressed key (NaN is acceptable)
     var key = Number( e.key ) - 1
         // set reference
@@ -480,18 +499,23 @@ window.addEventListener('keydown', function(e) {
 
 // process answer from either clicks or keyboard inputs
 function processResponse(e) {
-    if( e === 'true' ) {
-        // post true
-        document.getElementById( 'response-el' ).textContent = 'Correct!'
-         // go to next question
-     iterateQuiz()
-   } else if ( e === 'false' ) {
-         // remove time
-        penalize()
-        // post false
-        document.getElementById( 'response-el' ).textContent = 'Wrong!'
+    var responsePost = document.getElementById( 'response-el' )
+        if( e === 'true' ) {
+            // post true
+            responsePost.children[0].textContent = 'Correct!'
+            responsePost.children[0].classList.remove('false')
+            responsePost.children[0].classList.add('true')
             // go to next question
         iterateQuiz()
-   }
+    } else if ( e === 'false' ) {
+            // remove time
+            penalize()
+            // post false
+            responsePost.children[0].textContent = 'Wrong!'
+            responsePost.children[0].classList.remove('true')
+            responsePost.children[0].classList.add('false')
+                // go to next question
+            iterateQuiz()
+    }
 }
 
