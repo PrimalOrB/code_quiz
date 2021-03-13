@@ -4,11 +4,12 @@ var highScoreButton = document.getElementById( 'high-scores' ).addEventListener(
     event.preventDefault();
     highScoreHTML()
 })
+var timer = document.getElementById('timer');
 
 // On page load, populate DOM with start page
 startHTMl()
 
-// Question List
+// Start Page
 function startHTMl() {
         // clear container
     container.innerHTML = ""
@@ -36,8 +37,7 @@ function startHTMl() {
     })
 }
 
-
-// Question List
+// Question List Page
 function questionHTML() {
         // clear container
     container.innerHTML = ""
@@ -69,9 +69,12 @@ function questionHTML() {
     responseSpan.textContent = 'placeholder text';
     responseDiv.appendChild( responseSpan );
     container.appendChild( responseDiv );
+
+    // start timer
+    timerStart()
 }
 
-// End Game
+// End Game Page
 function endGameHTML() {
         // clear container
     container.innerHTML = ""
@@ -110,9 +113,14 @@ function endGameHTML() {
     scoreDiv.appendChild( scorePara );
     scoreDiv.appendChild( scoreForm );
     container.appendChild( scoreDiv );
+
+    var submitButton = document.getElementById( 'submit' ).addEventListener( 'click', function() {
+        event.preventDefault();
+        highScoreHTML()
+    })
 }
 
-// High Scores
+// High Scores Page
 function highScoreHTML() {
         // clear container
     container.innerHTML = ""
@@ -154,4 +162,18 @@ function highScoreHTML() {
         startHTMl();
     })
 
+}
+
+// Timer function
+function timerStart() {
+    var timeLeft = 5;
+    var timeInterval = setInterval(function() {
+        timeLeft--
+        timer.textContent = timeLeft + ' seconds'
+        if( timeLeft === 0 ) {
+            clearInterval(timeInterval)
+            endGameHTML()
+            // displayMessage()
+        }
+    }, 1000); 
 }
