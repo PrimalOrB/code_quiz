@@ -114,7 +114,8 @@ function startHTMl() {
     startTitle.textContent = 'coding quiz challenge'
     var startPara = document.createElement( 'p' );
     startPara.innerHTML = `Try to answer the following code-related questions within the time limit. </br>
-    Keep in mind that incorrect or unanswered answers will penalize your score/time by ten seconds!`;
+    Keep in mind that incorrect or unanswered answers will penalize your score/time by ten seconds! </br>
+    You can answer questions by clicking with your mouse, or pushing the corresponding keyboard button`;
     var startButton = document.createElement( 'button' );
     startButton.setAttribute( 'id', 'start-button');
     startButton.textContent = 'start quiz';
